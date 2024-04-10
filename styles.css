@@ -1,0 +1,20 @@
+body {
+  display: flex;
+  margin: 0;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.gameboard {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  height: 58vh;
+  width: 58vh;
+  border: solid red 1px;
+}
+
+.gameboard > div {
+    border: solid 1px red;
+}
