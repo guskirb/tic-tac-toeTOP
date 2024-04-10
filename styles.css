@@ -1,9 +1,21 @@
+.varela-round-regular {
+  font-family: "Varela Round", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+:root {
+  --font: "Varela Round", sans-serif;
+  --font-size: 1em;
+}
+
 body {
-  display: flex;
   margin: 0;
   height: 100vh;
+  display: flex;
   justify-content: center;
   align-items: center;
+  font-family: var(--font);
 }
 
 .gameboard {
@@ -16,5 +28,79 @@ body {
 }
 
 .gameboard > div {
-    border: solid 1px red;
+  border: solid 1px red;
+}
+
+.popupBackground {
+  position: absolute;
+  margin: 0;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000000d7;
+}
+
+.container {
+  position: absolute;
+  background-color: rgb(255, 255, 255);
+  height: max(350px, 40vh);
+  width: max(500px, 32vw);
+  text-align: center;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  gap: 15px;
+  padding: 20px 0px;
+  border-radius: 20px;
+  border: solid 4px black;
+}
+
+.container img {
+  width: 80px;
+  height: 80px;
+  align-self: center;
+  padding-top: 10px;
+}
+
+.container button {
+  width: 80px;
+  height: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 5px;
+  font-family: var(--font);
+  background-color: black;
+  color: white;
+  border: none;
+  font-weight: 500;
+  font-size: var(--font-size);
+}
+
+.container > div {
+  display: flex;
+  justify-content: center;
+  gap: 3vw;
+}
+
+label {
+  font-weight: 600;
+}
+
+.inputs {
+  display: flex;
+  flex-flow: column;
+  gap: 5px;
+  padding: 0px 15px;
+}
+
+input {
+  border-radius: 5px;
+  height: 25px;
+  border: none;
+  background-color: rgb(240, 240, 240);
+  padding-left: 5px;
+  font-family: var(--font);
+  font-size: var(--font-size);
 }

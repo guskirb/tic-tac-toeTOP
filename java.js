@@ -54,21 +54,25 @@ const winConditions = (function () {
     return { checkWinner, checkScore };
 })();
 
-squares.forEach(function (square) {
-    square.addEventListener("click", function play() {
-        currentPlayer.score[square.id] = square.id;
-        winConditions.checkScore(player1, player2);
-        if (currentPlayer === player1) {
-            player1.nextTurn();
-            currentPlayer = player2;
-            nextPlayer = player1
-        } else {
-            player2.nextTurn();
-            currentPlayer = player1;
-            nextPlayer = player2;
-        }
-        square.removeEventListener("click", play);
-    })
-});
+
+function assignEvents() {
+    squares.forEach(function (square) {
+        square.addEventListener("click", function play() {
+            currentPlayer.score[square.id] = square.id;
+            winConditions.checkScore(player1, player2);
+            if (currentPlayer === player1) {
+                player1.nextTurn();
+                currentPlayer = player2;
+                nextPlayer = player1
+            } else {
+                player2.nextTurn();
+                currentPlayer = player1;
+                nextPlayer = player2;
+            }
+            square.removeEventListener("click", play);
+        })
+    });
+}
+
 
 

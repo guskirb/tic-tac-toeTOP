@@ -7,9 +7,31 @@
     <title>Document</title>
     <link rel="stylesheet" href="styles.css">
     <script src="java.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
+    <div class="popupBackground">
+        <div class="container">
+            <h1>Enter Your Name</h1>
+            <div>
+                <div class="inputs">
+                    <label for="player1">Player 1:</label>
+                    <input type="text" name="player1" id="player1">
+                    <img src="images/X.svg" alt="">
+                </div>
+                <div class="inputs">
+                    <label for="player2">Player 2:</label>
+                    <input type="text" name="player2" id="player2">
+                    <img src="images/O.svg" alt="">
+                </div>
+            </div>
+            <button type="submit" id="submitButton">Submit</button>
+        </div>
+    </div>
     <div class="gameboard">
         <div class="square" id="6"></div>
         <div class="square" id="7"></div>
