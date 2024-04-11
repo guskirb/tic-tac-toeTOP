@@ -54,21 +54,17 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #000000d7;
+  background-color: #ffffff;
 }
 
 .container {
   position: absolute;
-  background-color: rgb(255, 255, 255);
-  height: max(350px, 40vh);
-  width: max(550px, 36vw);
   text-align: center;
   display: flex;
   flex-flow: column;
   justify-content: center;
-  gap: 15px;
+  gap: 50px;
   padding: 20px 0px;
-  border-radius: 20px;
 }
 
 .container img {
@@ -121,7 +117,7 @@ input {
 
 .player1Side,
 .player2Side {
-  width: max(180px, 15vw);
+  width: max(180px, 18vw);
   text-align: center;
   height: 20vh;
   display: flex;
@@ -147,4 +143,20 @@ input {
   height: 19vh;
   background-image: url(images/O.svg);
   background-size: 19vh;
+}
+
+.popupResults {
+  position: absolute;
+  margin: 0;
+  height: 100vh;
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  display: none;
+}
+
+.resultButtons button {
+  height: 60px;
+  width: 120px;
 }

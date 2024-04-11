@@ -4,35 +4,29 @@ const player1Input = document.getElementById("player1");
 const player2Input = document.getElementById("player2");
 const player1Name = document.getElementById("player1Name");
 const player2Name = document.getElementById("player2Name");
+const resultAlert = document.querySelector(".result");
+const resultScreen = document.querySelector(".popupResults");
+const playAgain = document.getElementById("playAgain");
+const menuButton = document.getElementById("menu");
 
 // player factory function
 
 function createPlayer(name) {
     const playerName = name;
     const score = ["", "", "", "", "", "", "", "", ""];
-    let turn = 0;
 
-    const nextTurn = () => turn++;
-    const getTurn = () => turn;
-
-    return { playerName, score, nextTurn, getTurn };
+    return { playerName, score };
 };
 
-let player1 = "";
-let player2 = "";
-
-let currentPlayer;
-let nextPlayer;
+let player1
+let player2
+let currentPlayer
 
 // win conditions IIFE module
 
 const winConditions = (function () {
-    function checkScore(play1, play2) {
-        if (play1.getTurn() === 2) {
-            winConditions.checkWinner(play1.score);
-        } else if (play2.getTurn() === 2) {
-            winConditions.checkWinner(play2.score);
-        }
+    function checkScore(current) {
+        checkWinner(current.score);
     };
     function checkWinner(player) {
         const win = [
@@ -50,9 +44,9 @@ const winConditions = (function () {
             let win1 = winner[0];
             let win2 = winner[1];
             let win3 = winner[2];
-            if (win1 === Number(player[win1]) && win2 === Number(player[win2]) && win3 === Number(player[win3])) {
+            if (win1 === parseInt(player[win1]) && win2 === parseInt(player[win2]) && win3 === parseInt(player[win3])) {
                 console.log("win");
-
+                render.declareWinner(currentPlayer.playerName);
             }
         }
     };
@@ -65,22 +59,59 @@ function assignEvents() {
         square.addEventListener("click", function play() {
             currentPlayer.score[square.id] = square.id;
             render.changeBoard(square.id);
-            winConditions.checkScore(player1, player2);
+            winConditions.checkScore(currentPlayer);
             if (currentPlayer === player1) {
-                player1.nextTurn();
                 currentPlayer = player2;
-                nextPlayer = player1
-            } else {
-                player2.nextTurn();
+                player1Name.style.fontSize = "1.3em";
+                player2Name.style.fontSize = "1.6em";
+            } else if (currentPlayer === player2) {
                 currentPlayer = player1;
-                nextPlayer = player2;
-            }
+                player2Name.style.fontSize = "1.3em";
+                player1Name.style.fontSize = "1.6em";
+            };
             square.removeEventListener("click", play);
         })
     })
 };
 
-submitButton.addEventListener("click", function () {
+submitButton.addEventListener("click", startGame);
+
+menuButton.addEventListener("click", restartGame);
+
+// render module
+
+const render = (function () {
+    function displayName() {
+        player1Name.textContent = player1.playerName.toUpperCase();
+        player2Name.textContent = player2.playerName.toUpperCase();
+    };
+    function changeBoard(num) {
+        currentSquare = document.getElementById(num);
+        if (currentPlayer === player1) {
+            return currentSquare.classList.add("crosses");
+        } if (currentPlayer === player2) {
+            return currentSquare.classList.add("naughts");
+        } else {
+            console.log("error"); 1
+        }
+    };
+    function declareWinner(player) {
+        resultScreen.style.display = "flex";
+        resultAlert.textContent = player.toUpperCase() + " WINS!";
+    };
+    return { displayName, changeBoard, declareWinner };
+})();
+
+function restartGame() {
+    squares.forEach((square) => {
+        square.classList.remove("naughts");
+        square.classList.remove("crosses");
+    });
+    document.querySelector(".popupBackground").style.display = 'flex';
+    resultScreen.style.display = "none";
+}
+
+function startGame() {
     document.querySelector(".popupBackground").style.display = 'none';
     player1 = createPlayer(player1Input.value);
     player2 = createPlayer(player2Input.value);
@@ -90,27 +121,13 @@ submitButton.addEventListener("click", function () {
     if (player2Input.value === "") {
         player2 = createPlayer("Player 2");
     };
-    assignEvents();
     currentPlayer = player1;
-    nextPlayer = player2;
     render.displayName();
-});
+    player2Name.style.fontSize = "1.3em";
+    player1Name.style.fontSize = "1.6em";
+    assignEvents();
+};
 
-// render module
+function replay() {
 
-const render = (function () {
-    function displayName() {
-        player1Name.textContent = player1.playerName.toUpperCase();
-        player2Name.textContent = player2.playerName.toUpperCase();
-    }
-    function changeBoard(y) {
-        currentSquare = document.getElementById(`${y}`);
-        if (currentPlayer === player1) {
-            currentSquare.classList.add("crosses");
-        } else {
-            currentSquare.classList.add("naughts");
-        }
-    }
-
-    return { displayName, changeBoard };
-})();
+}
