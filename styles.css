@@ -20,15 +20,30 @@ body {
 
 .gameboard {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  height: 58vh;
-  width: 58vh;
-  border: solid red 1px;
+  grid-template-columns: repeat(3, 20vh);
+  grid-template-rows: repeat(3, 20vh);
+  height: 60vh;
+  width: 60vh;
 }
 
-.gameboard > div {
-  border: solid 1px red;
+.square {
+  border: solid 5px rgb(0, 0, 0);
+}
+
+.top {
+  border-top: none;
+}
+
+.right {
+  border-right: none;
+}
+
+.left {
+  border-left: none;
+}
+
+.bot {
+  border-bottom: none;
 }
 
 .popupBackground {
@@ -46,7 +61,7 @@ body {
   position: absolute;
   background-color: rgb(255, 255, 255);
   height: max(350px, 40vh);
-  width: max(500px, 32vw);
+  width: max(550px, 36vw);
   text-align: center;
   display: flex;
   flex-flow: column;
@@ -102,4 +117,34 @@ input {
   padding-left: 5px;
   font-family: var(--font);
   font-size: var(--font-size);
+}
+
+.player1Side,
+.player2Side {
+  width: max(180px, 15vw);
+  text-align: center;
+  height: 20vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 800;
+  font-size: 1.3em;
+}
+
+.crosses::after {
+  content: "";
+  display: inline-block;
+  width: 19vh;
+  height: 19vh;
+  background-image: url(images/X.svg);
+  background-size: 19vh;
+}
+
+.naughts:after {
+  content: "";
+  display: inline-block;
+  width: 19vh;
+  height: 19vh;
+  background-image: url(images/O.svg);
+  background-size: 19vh;
 }

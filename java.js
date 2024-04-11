@@ -21,8 +21,8 @@ function createPlayer(name) {
 let player1 = "";
 let player2 = "";
 
-let currentPlayer = player1;
-let nextPlayer = player2;
+let currentPlayer;
+let nextPlayer;
 
 // win conditions IIFE module
 
@@ -64,6 +64,7 @@ function assignEvents() {
     squares.forEach(function (square) {
         square.addEventListener("click", function play() {
             currentPlayer.score[square.id] = square.id;
+            render.changeBoard(square.id);
             winConditions.checkScore(player1, player2);
             if (currentPlayer === player1) {
                 player1.nextTurn();
@@ -90,6 +91,8 @@ submitButton.addEventListener("click", function () {
         player2 = createPlayer("Player 2");
     };
     assignEvents();
+    currentPlayer = player1;
+    nextPlayer = player2;
     render.displayName();
 });
 
@@ -100,5 +103,14 @@ const render = (function () {
         player1Name.textContent = player1.playerName.toUpperCase();
         player2Name.textContent = player2.playerName.toUpperCase();
     }
-    return { displayName };
+    function changeBoard(y) {
+        currentSquare = document.getElementById(`${y}`);
+        if (currentPlayer === player1) {
+            currentSquare.classList.add("crosses");
+        } else {
+            currentSquare.classList.add("naughts");
+        }
+    }
+
+    return { displayName, changeBoard };
 })();
