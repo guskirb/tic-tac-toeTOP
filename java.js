@@ -1,4 +1,9 @@
 const squares = document.querySelectorAll(".square");
+const submitButton = document.getElementById("submitButton");
+const player1Input = document.getElementById("player1");
+const player2Input = document.getElementById("player2");
+const player1Name = document.getElementById("player1Name");
+const player2Name = document.getElementById("player2Name");
 
 // player factory function
 
@@ -13,8 +18,8 @@ function createPlayer(name) {
     return { playerName, score, nextTurn, getTurn };
 };
 
-const player1 = createPlayer("Gus");
-const player2 = createPlayer("PC");
+let player1 = "";
+let player2 = "";
 
 let currentPlayer = player1;
 let nextPlayer = player2;
@@ -71,8 +76,29 @@ function assignEvents() {
             }
             square.removeEventListener("click", play);
         })
-    });
-}
+    })
+};
 
+submitButton.addEventListener("click", function () {
+    document.querySelector(".popupBackground").style.display = 'none';
+    player1 = createPlayer(player1Input.value);
+    player2 = createPlayer(player2Input.value);
+    if (player1Input.value === "") {
+        player1 = createPlayer("Player 1");
+    };
+    if (player2Input.value === "") {
+        player2 = createPlayer("Player 2");
+    };
+    assignEvents();
+    render.displayName();
+});
 
+// render module
 
+const render = (function () {
+    function displayName() {
+        player1Name.textContent = player1.playerName.toUpperCase();
+        player2Name.textContent = player2.playerName.toUpperCase();
+    }
+    return { displayName };
+})();
