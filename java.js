@@ -9,6 +9,10 @@ const resultScreen = document.querySelector(".popupResults");
 const playAgain = document.getElementById("playAgain");
 const menuButton = document.getElementById("menu");
 
+let player1
+let player2
+let currentPlayer
+
 // player factory function
 
 function createPlayer(name) {
@@ -17,10 +21,6 @@ function createPlayer(name) {
 
     return { playerName, score };
 };
-
-let player1
-let player2
-let currentPlayer
 
 // win conditions IIFE module
 
@@ -53,31 +53,6 @@ const winConditions = (function () {
     return { checkWinner, checkScore };
 })();
 
-
-function assignEvents() {
-    squares.forEach(function (square) {
-        square.addEventListener("click", function play() {
-            currentPlayer.score[square.id] = square.id;
-            render.changeBoard(square.id);
-            winConditions.checkScore(currentPlayer);
-            if (currentPlayer === player1) {
-                currentPlayer = player2;
-                player1Name.style.fontSize = "1.3em";
-                player2Name.style.fontSize = "1.6em";
-            } else if (currentPlayer === player2) {
-                currentPlayer = player1;
-                player2Name.style.fontSize = "1.3em";
-                player1Name.style.fontSize = "1.6em";
-            };
-            square.removeEventListener("click", play);
-        })
-    })
-};
-
-submitButton.addEventListener("click", startGame);
-
-menuButton.addEventListener("click", restartGame);
-
 // render module
 
 const render = (function () {
@@ -102,32 +77,71 @@ const render = (function () {
     return { displayName, changeBoard, declareWinner };
 })();
 
-function restartGame() {
-    squares.forEach((square) => {
-        square.classList.remove("naughts");
-        square.classList.remove("crosses");
-    });
-    document.querySelector(".popupBackground").style.display = 'flex';
-    resultScreen.style.display = "none";
-}
+// generate game module
 
-function startGame() {
-    document.querySelector(".popupBackground").style.display = 'none';
-    player1 = createPlayer(player1Input.value);
-    player2 = createPlayer(player2Input.value);
-    if (player1Input.value === "") {
-        player1 = createPlayer("Player 1");
+const generateGame = (function () {
+    function startGame() {
+        clearSquares();
+        document.querySelector(".popupBackground").style.display = 'none';
+        player1 = createPlayer(player1Input.value);
+        player2 = createPlayer(player2Input.value);
+        if (player1Input.value === "") {
+            player1 = createPlayer("Player 1");
+        };
+        if (player2Input.value === "") {
+            player2 = createPlayer("Player 2");
+        };
+        currentPlayer = player1;
+        render.displayName();
+        player2Name.style.fontSize = "1.3em";
+        player1Name.style.fontSize = "1.6em";
     };
-    if (player2Input.value === "") {
-        player2 = createPlayer("Player 2");
+    function replay() {
+        clearSquares();
+        resultScreen.style.display = 'none';
+        player1 = createPlayer(player1.playerName);
+        player2 = createPlayer(player2.playerName);
+        currentPlayer = player1;
+        player2Name.style.fontSize = "1.3em";
+        player1Name.style.fontSize = "1.6em";
     };
-    currentPlayer = player1;
-    render.displayName();
-    player2Name.style.fontSize = "1.3em";
-    player1Name.style.fontSize = "1.6em";
-    assignEvents();
-};
+    function restartGame() {
+        document.querySelector(".popupBackground").style.display = 'flex';
+        resultScreen.style.display = "none";
+    };
+    function clearSquares() {
+        squares.forEach((square) => {
+            square.setAttribute('listener', 'true');
+            square.classList.remove("naughts");
+            square.classList.remove("crosses");
+        });
+    };
+    return { startGame, replay, restartGame, clearSquares };
+})();
 
-function replay() {
+squares.forEach(function (square) {
+    square.addEventListener("click", function play() {
+        if (square.getAttribute("listener") === "true") {
+            square.removeAttribute("listener");
+            currentPlayer.score[square.id] = square.id;
+            render.changeBoard(square.id);
+            winConditions.checkScore(currentPlayer);
+            if (currentPlayer === player1) {
+                currentPlayer = player2;
+                player1Name.style.fontSize = "1.3em";
+                player2Name.style.fontSize = "1.6em";
+            } else if (currentPlayer === player2) {
+                currentPlayer = player1;
+                player2Name.style.fontSize = "1.3em";
+                player1Name.style.fontSize = "1.6em";
+            };
+        } else {
+            return;
+        }
+    })
 
-}
+});
+
+submitButton.addEventListener("click", generateGame.startGame);
+playAgain.addEventListener("click", generateGame.replay);
+menuButton.addEventListener("click", generateGame.restartGame);
